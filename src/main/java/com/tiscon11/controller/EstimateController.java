@@ -245,4 +245,49 @@ public class EstimateController {
             ""
         );
     }
+
+    @GetMapping("/service-detail1")
+    public String serviceDetail1() {
+        return "service-detail1"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail2")
+    public String serviceDetail2() {
+        return "service-detail2"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail3")
+    public String serviceDetail3() {
+        return "service-detail3"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail4")
+    public String serviceDetail4() {
+        return "service-detail4"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail5")
+    public String serviceDetail5() {
+        return "service-detail5"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail6")
+    public String serviceDetail6() {
+        return "service-detail6"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail7")
+    public String serviceDetail7() {
+        return "service-detail7"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail8")
+    public String serviceDetail8() {
+        return "service-detail8"; // .hbs は不要
+    }
+
+    @GetMapping("/service-detail9")
+    public String serviceDetail9() {
+        return "service-detail9"; // .hbs は不要
+    }
 }

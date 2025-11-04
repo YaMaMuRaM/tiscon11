@@ -4,16 +4,46 @@
     background-position:left 0 top 80%;
     background-size: cover;
     background-repeat: no-repeat;
+    position: relative;
+}
+
+.jumbotron::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* top, right, bottom, left: 0 と同じ */
+  background: rgba(255, 255, 255, 0.3); /* ← 透明度20%の黒 */
+  z-index: 0;
+}
+
+.jumbotron > * {
+  position: relative;
+  z-index: 1; /* 文字を前面に出す */
+}
+
+.arrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 24px;
+    margin: 0 16px;
+    color: #2EA9BC;
+    transform: translateY(-12px); /* 3倍上に移動 */
 }
 
 .company-name {
-    position: static;
+    position: relative;
     margin: 10vh 0 0 10vw;
     color: #FFFFFF;
     font-style: normal;
     font-weight: bold;
     font-size: 48px;
     font-family: "Roboto";
+}
+
+.btn-message {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0069d9;      /* ボタンと統一感 */
+  margin-top: 20px;  /* ボタンとの間隔 */
 }
 
 .bland-message {
@@ -83,6 +113,12 @@
 }
 
 .service-point p {
-    margin-top: 32px;
+    margin-top: 10px;
     margin-bottom: 0;
+}
+
+.service-point a {
+    color: #FFFFFF;        /* 文字を白に */
+    text-decoration: none; /* 下線を消す */
+    display: inline-block; /* 必要に応じてブロック扱い */
 }
