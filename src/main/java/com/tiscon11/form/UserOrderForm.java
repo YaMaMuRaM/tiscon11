@@ -47,6 +47,9 @@ public record UserOrderForm(
     @NotBlank @YYYYMMDD()
     String dateOfBirth,    // 生年月日
 
+    @NotBlank
+    String postalCode,     // 郵便番号
+
     @NotBlank @Size(max = 255)
     String address,     // 住所
 
