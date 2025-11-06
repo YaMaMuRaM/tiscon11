@@ -4,7 +4,7 @@
 
 {{#partial "content"}}
   <div class="container">
-    <form action="/order" class="form-horizontal" method="post">
+    <form action="/order" class="form-horizontal" method="post" onkeydown="return event.key != 'Enter';">
       <div class="progress-icon">
         <img src="/img/progress_result.svg"/>
       </div>

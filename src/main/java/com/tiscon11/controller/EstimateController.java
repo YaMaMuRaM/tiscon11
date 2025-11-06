@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tiscon11.code.JobType;
@@ -20,6 +19,7 @@ import com.tiscon11.domain.InsuranceOrder;
 import com.tiscon11.form.UserOrderForm;
 import com.tiscon11.service.EstimateResult;
 import com.tiscon11.service.EstimateService;
+import com.tiscon11.viewhelper.SpringMVCHelper;
 
 /**
  * 保険見積もりのコントローラークラス。
@@ -75,7 +75,39 @@ public class EstimateController {
      * @return 遷移先画面ファイル名（確認画面）
      */
     @PostMapping("confirm")
-    String confirm(@ModelAttribute UserOrderForm userOrderForm, Model model) {
+    String confirm(@Validated UserOrderForm userOrderForm, BindingResult result, Model model) {
+
+        // 誕生日
+        LocalDate dateOfBirth = LocalDate.parse(userOrderForm.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        // 年齢が範囲内であるか確認する
+        if (!estimateService.isAgeValid(dateOfBirth)) {
+            // エラーの場合、Formの生年月日の項目にFieldErrorを追加
+            result.addError(new FieldError("userOrderForm", "dateOfBirth",
+                "年齢は20歳以上100歳以下である必要があります"));
+            // model.addAttribute("errors", result.getAllErrors());
+            // return "input";  // 確認画面表示を指示
+        }
+
+        if (result.hasErrors()) {
+            // 入力エラーがある場合は、入力画面に遷移する。
+            // model.addAttribute("errors", result.getAllErrors());
+            model.addAttribute(SpringMVCHelper.BINDING_RESULT_KEY, result);
+
+            // 全ての保険種別をプルダウン表示用に用意
+            model.addAttribute("insurances", estimateService.getInsurances());
+            // 配偶者有無、ご職業、病歴有無の全選択肢をラジオボタン表示用に用意
+            model.addAttribute("marriedTypes", MarriedType.values());
+            model.addAttribute("jobTypes", JobType.values());
+            model.addAttribute("treatedTypes", TreatedType.values());
+
+            return "input";  // 入力画面表示を指示
+        }
+
+
+        // if (userOrderForm.insuranceType() == null || userOrderForm.insuranceType().isEmpty()) {
+        //     // model.addAttribute("errorMessage", "保険種別を選択してください。");
+        //     return "input"; // 入力画面に戻す
+        // }
 
         // 選択された保険種別に対応する保険名を取得
         String insuranceName = fetchInsuranceName(userOrderForm.insuranceType());

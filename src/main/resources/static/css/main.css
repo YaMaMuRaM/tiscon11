@@ -83,6 +83,7 @@ label {
     font-family: "Roboto";
     font-size: 16px;
     width: 100%;
+    margin-bottom: 1.2em;
 }
 
 th {
@@ -165,4 +166,12 @@ table {
 
 .app-header {
     background-color: white;
+}
+
+.error-message {
+  color: #d93025;          /* 鮮やかな赤（Google系フォーム風） */
+  font-weight: bold;       /* 太字で目立たせる */
+  font-size: 16px;         /* 少し大きめ */
+  margin-top: -5px;         /* 入力欄との間に少し余白 */
+  display: block;          /* 改行して独立表示 */
 }

@@ -4,7 +4,7 @@
 
 {{#partial "content"}}
   <div class="container">
-    <form action="/confirm" class="form-horizontal" method="post">
+    <form action="/confirm" class="form-horizontal" method="post" onkeydown="return event.key != 'Enter';">
       <div class="progress-icon">
         <img src="/img/progress_input.svg"/>
       </div>
@@ -15,78 +15,160 @@
           <h2 class="sub-title">保険種別</h2>
           <div class="form-group">
             <label>
-              保険の選択
+              保険の選択<sup style="color:red; font-size: 0.8em;">＊</sup>
               <select name="insuranceType">
+                <option value="">未選択</option>
                 {{#each insurances}}
                   <option value="{{this.insuranceType}}">{{this.insuranceName}}</option>
                 {{/each}}
               </select>
             </label>
+            {{#hasFieldErrors "insuranceType"}}
+              <ul class="error-message">
+                {{#fieldErrors "insuranceType"}}<li>{{this}}</li>{{/fieldErrors}}
+              </ul>
+            {{/hasFieldErrors}}
           </div>
         </fieldset>
         <fieldset>
           <h2 class="sub-title">ご本人について</h2>
           <label>
-            氏名
+            氏名<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <small class="hint">例：山田太郎（スペース不要）</small>
             <input type="text" name="kanjiName" value="{{userOrderForm.kanjiName}}"/>
           </label>
+          {{#hasFieldErrors "kanjiName"}}
+            <ul class="error-message">
+              {{#fieldErrors "kanjiName"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
           <label>
-            シメイ（フリガナ）
+            シメイ（フリガナ）<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <small class="hint">例：ヤマダタロウ（全角）</small>
             <input type="text" name="kanaName" value="{{userOrderForm.kanaName}}"/>
           </label>
+          {{#hasFieldErrors "kanaName"}}
+            <ul class="error-message">
+              {{#fieldErrors "kanaName"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
           <label>
-            生年月日
-            <input type="text" name="dateOfBirth" value="{{userOrderForm.dateOfBirth}}"/></label>
+            生年月日<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <input type="number" name="birthYear" id="birthYear" placeholder="YYYY" min="1900" max="2025" style="width:80px;"> 年
+            <input type="number" name="birthMonth" id="birthMonth" placeholder="MM" min="1" max="12" style="width:60px;"> 月
+            <input type="number" name="birthDay" id="birthDay" placeholder="DD" min="1" max="31" style="width:60px;"> 日
+            <!-- サーバーに送る hidden フィールド -->
+            <input type="hidden" name="dateOfBirth" id="dateOfBirth" value="{{userOrderForm.dateOfBirth}}">
+          </label>
+          {{#hasFieldErrors "dateOfBirth"}}
+            <ul class="error-message">
+              {{#fieldErrors "dateOfBirth"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}} 
           <label>
-            住所
+            住所<sup style="color:red; font-size: 0.8em;">＊</sup><br>    
+            <small class="hint">例：東京都千代田区1-1-1</small>
             <input type="text" name="address" value="{{userOrderForm.address}}"/>
           </label>
+          {{#hasFieldErrors "address"}}
+            <ul class="error-message">
+              {{#fieldErrors "address"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
           <label>
-            電話番号
+            電話番号<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+                <small class="hint">例：08012345678（半角）</small>
             <input type="text" name="tel" value="{{userOrderForm.tel}}"/>
-          </label>
+          </label>       
+          {{#hasFieldErrors "tel"}}
+            <ul class="error-message">
+              {{#fieldErrors "tel"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
           <label>
-            メールアドレス
+            メールアドレス<sup style="color:red; font-size: 0.8em;">＊</sup><br>    
+            <small class="hint">例：example@example.com（半角）</small>
             <input type="text" name="email" value="{{userOrderForm.email}}"/>
           </label>
+          {{#hasFieldErrors "email"}}
+            <ul class="error-message">
+              {{#fieldErrors "email"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
         </fieldset>
         <fieldset>
           <h2 class="sub-title">お勤め先・ご家族について</h2>
-          <h3 class="caption">配偶者有無</h3>
+          <h3 class="caption">配偶者有無<span style="color:red; font-size:0.8em; vertical-align: super;">＊</span></h3>
           {{#each marriedTypes}}
             <label>
               <input type="radio" name="marriedType" value="{{this.code}}" {{#eq this.code userOrderForm.marriedTypeEnum.code}}checked{{/eq}}>
               {{this.label}}
             </label>
           {{/each}}
-          <h3 class="caption">ご職業</h3>
+          {{#hasFieldErrors "marriedTypes"}}
+            <ul class="error-message">
+              {{#fieldErrors "marriedTypes"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
+          <h3 class="caption">ご職業<span style="color:red; font-size:0.8em; vertical-align: super;">＊</span></h3>
           {{#each jobTypes}}
             <label>
               <input type="radio" name="jobType" value="{{this.code}}" {{#eq this.code userOrderForm.jobTypeEnum.code}}checked{{/eq}}>
               {{this.label}}
             </label>
           {{/each}}
+          {{#hasFieldErrors "jobTypes"}}
+            <ul class="error-message">
+              {{#fieldErrors "jobTypes"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
           <label class="caption">
-            昨年の所得（万円）
+            昨年の所得（万円）<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <small class="hint">例：1000（半角）</small>
             <input type="text" name="income" value="{{userOrderForm.income}}"/>
           </label>
+          {{#hasFieldErrors "income"}}
+            <ul class="error-message">
+              {{#fieldErrors "income"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
         </fieldset>
         <fieldset>
           <h2 class="sub-title">ご病歴について</h2>
           <div class="form-group">
-            <h3 class="caption">過去5年以内に、病気やケガで7日間以上にわたって医師の診察・検査・治療・投薬をうけたことがありますか</h3>
+            <h3 class="caption">過去5年以内に、病気やケガで7日間以上にわたって医師の診察・検査・治療・投薬をうけたことがありますか<span style="color:red; font-size:0.8em; vertical-align: super;">＊</span></h3>
             {{#each treatedTypes}}
               <label>
                 <input type="radio" name="treatedType" value="{{this.code}}" {{#eq this.code userOrderForm.treatedTypeEnum.code}}checked{{/eq}}>
                 {{this.label}}
               </label>
             {{/each}}
+            {{#hasFieldErrors "treatedTypes"}}
+              <ul class="error-message">
+                {{#fieldErrors "treatedTypes"}}<li>{{this}}</li>{{/fieldErrors}}
+              </ul>
+            {{/hasFieldErrors}}
           </div>
           <div class="form-group">
             <label>
               「はい」 を選んだ方は内容をご記入下さい（全角）
               <input type="text" name="medicalHistory" value="{{userOrderForm.medicalHistory}}"/>
             </label>
+            {{#hasFieldErrors "medicalHistory"}}
+              <ul class="error-message">
+                {{#fieldErrors "medicalHistory"}}<li>{{this}}</li>{{/fieldErrors}}
+              </ul>
+            {{/hasFieldErrors}}
+            {{#hasFieldErrors "treatedMedicalHistoryValid"}}
+              <ul class="error-message">
+                {{#fieldErrors "treatedMedicalHistoryValid"}}<li>{{this}}</li>{{/fieldErrors}}
+              </ul>
+            {{/hasFieldErrors}}
+            {{#hasFieldErrors "untreatedMedicalHistoryValid"}}
+              <ul class="error-message">
+                {{#fieldErrors "untreatedMedicalHistoryValid"}}<li>{{this}}</li>{{/fieldErrors}}
+              </ul>
+            {{/hasFieldErrors}}
           </div>
         </fieldset>
         <div class="form-group">
@@ -98,6 +180,6 @@
       </div>
     </form>
   </div>
+  <script src="/js/form-date-handler.js"></script>
 {{/partial}}
-
 {{> common/base }}
