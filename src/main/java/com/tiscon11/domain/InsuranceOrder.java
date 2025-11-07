@@ -16,6 +16,7 @@ package com.tiscon11.domain;
  * @param marriedType    配偶者有無
  * @param jobType        職業
  * @param income         所得金額
+ * @param discoverySourceType 保険認知経路
  * @param treatedType    病歴有無
  * @param medicalHistory 病歴
  */
@@ -31,6 +32,7 @@ public record InsuranceOrder(
     Integer marriedType,     // 配偶者有無
     Integer jobType,         // 職業
     Integer income,          // 所得金額
+    Integer discoverySourceType, // 保険認知経路
     Integer treatedType,     // 病歴有無
     String medicalHistory    // 病歴
 ) {

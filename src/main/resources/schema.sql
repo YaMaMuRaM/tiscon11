@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS INSURANCE_ORDER (
     MARRIED INTEGER NOT NULL,                                 -- 配偶者有無
     JOB INTEGER NOT NULL,                                     -- 職業
     INCOME NUMBER(9) NOT NULL,                                -- 所得金額
+    DISCOVERY_SOURCE INTEGER NOT NULL,                        -- 保険認知経路
     TREATED INTEGER NOT NULL,                                 -- 病歴有無
     MEDICAL_HISTORY VARCHAR(240),                             -- 病歴
     PRIMARY KEY (RECEIPT_NO),

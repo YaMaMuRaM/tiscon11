@@ -29,7 +29,11 @@
         <img src="/img/progress_input.svg"/>
       </div>
       <div class="page-title">お見積り情報入力</div>
-
+        {{#if errors}}
+          <div class="error-message">
+            入力内容に誤りがあります。ご確認ください。
+          </div>
+        {{/if}}
       <div class="col-sm-12">
         <fieldset>
           <h2 class="sub-title">保険種別</h2>
@@ -37,7 +41,7 @@
             <label>
               保険の選択<sup style="color:red; font-size: 0.8em;">＊</sup>
               <select name="insuranceType">
-                <option value="">未選択</option>
+                <option value="">選択してください</option>
                 {{#each insurances}}
                   <option value="{{this.insuranceType}}">{{this.insuranceName}}</option>
                 {{/each}}
@@ -52,7 +56,7 @@
         </fieldset>
         <fieldset>
           <h2 class="sub-title">ご本人について</h2>
-          <label>
+          {{!-- <label>
             氏名<sup style="color:red; font-size: 0.8em;">＊</sup><br>
             <small class="hint">例：山田太郎（スペース不要）</small>
             <input type="text" name="kanjiName" value="{{userOrderForm.kanjiName}}"/>
@@ -60,6 +64,27 @@
           {{#hasFieldErrors "kanjiName"}}
             <ul class="error-message">
               {{#fieldErrors "kanjiName"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}} --}}
+          <label>
+            姓<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <small class="hint">例：山田</small>
+            <input type="text" name="kanjiLastName" value="{{userOrderForm.kanjiLastName}}" />
+          </label>
+          {{#hasFieldErrors "kanjiLastName"}}
+            <ul class="error-message">
+              {{#fieldErrors "kanjiLastName"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
+
+          <label>
+            名<sup style="color:red; font-size: 0.8em;">＊</sup><br>
+            <small class="hint">例：太郎</small>
+            <input type="text" name="kanjiFirstName" value="{{userOrderForm.kanjiFirstName}}" />
+          </label>
+          {{#hasFieldErrors "kanjiFirstName"}}
+            <ul class="error-message">
+              {{#fieldErrors "kanjiFirstName"}}<li>{{this}}</li>{{/fieldErrors}}
             </ul>
           {{/hasFieldErrors}}
           <label>
@@ -154,6 +179,20 @@
           {{#hasFieldErrors "income"}}
             <ul class="error-message">
               {{#fieldErrors "income"}}<li>{{this}}</li>{{/fieldErrors}}
+            </ul>
+          {{/hasFieldErrors}}
+          <label class="caption">
+          <h3 class="caption">当サイトを何でお知りになりましたか<span style="color:red; font-size:0.8em; vertical-align: super;">＊</span></h3>
+            <select name="discoverySourceType">
+              <option value="">選択してください</option>
+                {{#each discoverySourceTypes}}
+                  <option value="{{this.code}}">{{this.label}}</option>
+                {{/each}}
+            </select>
+          </label>
+          {{#hasFieldErrors "discoverySourceType"}}
+            <ul class="error-message">
+              {{#fieldErrors "discoverySourceType"}}<li>{{this}}</li>{{/fieldErrors}}
             </ul>
           {{/hasFieldErrors}}
         </fieldset>

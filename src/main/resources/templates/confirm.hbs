@@ -48,9 +48,10 @@
           <tr>
             <th>氏名</th>
             <td>
-              <span>{{userOrderForm.kanjiName}}</span>
+              <span>{{userOrderForm.kanjiLastName}}{{userOrderForm.kanjiFirstName}}</span>
             </td>
-            <input type="hidden" name="kanjiName" value="{{userOrderForm.kanjiName}}"/>
+              <input type="hidden" name="kanjiLastName" value="{{userOrderForm.kanjiLastName}}"/>
+              <input type="hidden" name="kanjiFirstName" value="{{userOrderForm.kanjiFirstName}}"/>
           </tr>
           <tr>
             <th>シメイ（フリガナ）</th>
@@ -104,6 +105,11 @@
             <th>昨年の所得（万円）</th>
             <td><span>{{userOrderForm.income}}</span></td>
             <input type="hidden" name="income" value="{{userOrderForm.income}}"/>
+          </tr>
+          <tr>
+            <th>当サイトを何でお知りになりましたか</th>
+            <td><span>{{userOrderForm.discoverySourceTypeEnum.label}}</span></td>
+            <input type="hidden" name="discoverySourceType" value="{{userOrderForm.discoverySourceType}}"/>
           </tr>
           </tbody>
         </table>

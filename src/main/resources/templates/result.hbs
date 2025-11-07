@@ -12,17 +12,16 @@
       <div class="col-sm-12">
         <div class="text-center">
           <div class="primary-text"><span>{{estimateResult.annualFee}}</span>円</div>
-          <div>
-            詳細見積もり依頼は無料です。<br>
-            依頼完了後、電話番号へ数日以内にお電話させていただきます。<br>
-            ただし、混雑状況によっては、お電話させていただくまで、<br>
-            お時間をいただく場合がございます。<br>
-            ご了承ください。<br>
-            ご不明点がある場合は、下記のお問い合わせまでご連絡ください。<br>
-            お問い合わせ：000-0000-0000<br>
+          <div class="announce">
+            依頼完了後、<span class="highlight">数日以内に</span>電話番号へお電話させていただきます。
+          </div>
+          <span>※ 混雑状況によっては、お電話させていただくまで、お時間をいただく場合がございます。</span>
+          <button type="submit" name="proceed" class="btn btn-primary">詳細見積もり依頼へ</button>
+          <div class="contact">お問い合わせ</div>
+          <div class="contact-info">
+            電話：000-0000-0000<br>
             受付時間：平日9:00-18:00<br>
           </div>
-          <button type="submit" name="proceed" class="btn btn-primary">詳細見積もり依頼へ</button>
         </div>
         <div class="col-sm-12">
           <h2 class="sub-title">保険種別</h2>
@@ -49,9 +48,10 @@
             <tr>
               <th>氏名</th>
               <td>
-                <span>{{userOrderForm.kanjiName}}</span>
+                <span>{{userOrderForm.kanjiLastName}}{{userOrderForm.kanjiFirstName}}</span>
               </td>
-              <input type="hidden" name="kanjiName" value="{{userOrderForm.kanjiName}}"/>
+                <input type="hidden" name="kanjiLastName" value="{{userOrderForm.kanjiLastName}}"/>
+                <input type="hidden" name="kanjiFirstName" value="{{userOrderForm.kanjiFirstName}}"/>
             </tr>
             <tr>
               <th>シメイ（フリガナ）</th>
@@ -105,6 +105,11 @@
             <th>昨年の所得（万円）</th>
             <td><span>{{userOrderForm.income}}</span></td>
             <input type="hidden" name="income" value="{{userOrderForm.income}}"/>
+          </tr>
+          <tr>
+            <th>当サイトを何でお知りになりましたか</th>
+            <td><span>{{userOrderForm.discoverySourceTypeEnum.label}}</span></td>
+            <input type="hidden" name="discoverySourceType" value="{{userOrderForm.discoverySourceType}}"/>
           </tr>
           </tbody>
         </table>

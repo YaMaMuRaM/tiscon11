@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.tiscon11.code.DiscoverySourceType;
 import com.tiscon11.code.JobType;
 import com.tiscon11.code.MarriedType;
 import com.tiscon11.code.TreatedType;
@@ -62,6 +63,7 @@ public class EstimateController {
         model.addAttribute("marriedTypes", MarriedType.values());
         model.addAttribute("jobTypes", JobType.values());
         model.addAttribute("treatedTypes", TreatedType.values());
+        model.addAttribute("discoverySourceTypes", DiscoverySourceType.values());
 
         return "input"; // 入力画面表示を指示
     }
@@ -77,21 +79,25 @@ public class EstimateController {
     @PostMapping("confirm")
     String confirm(@Validated UserOrderForm userOrderForm, BindingResult result, Model model) {
 
-        // 誕生日
-        LocalDate dateOfBirth = LocalDate.parse(userOrderForm.dateOfBirth(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        // 年齢が範囲内であるか確認する
-        if (!estimateService.isAgeValid(dateOfBirth)) {
-            // エラーの場合、Formの生年月日の項目にFieldErrorを追加
-            result.addError(new FieldError("userOrderForm", "dateOfBirth",
-                "年齢は20歳以上100歳以下である必要があります"));
-            // model.addAttribute("errors", result.getAllErrors());
-            // return "input";  // 確認画面表示を指示
+        String dateOfBirthStr = userOrderForm.dateOfBirth();
+        if (dateOfBirthStr != null && !dateOfBirthStr.isEmpty()) {
+            // 誕生日
+            LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            // 年齢が範囲内であるか確認する
+            if (!estimateService.isAgeValid(dateOfBirth)) {
+                // エラーの場合、Formの生年月日の項目にFieldErrorを追加
+                result.addError(new FieldError("userOrderForm", "dateOfBirth",
+                    "年齢は20歳以上100歳以下である必要があります"));
+                // model.addAttribute("errors", result.getAllErrors());
+                // return "input";  // 確認画面表示を指示
+            }
         }
 
         if (result.hasErrors()) {
             // 入力エラーがある場合は、入力画面に遷移する。
             // model.addAttribute("errors", result.getAllErrors());
             model.addAttribute(SpringMVCHelper.BINDING_RESULT_KEY, result);
+            model.addAttribute("errors", result.getAllErrors());
 
             // 全ての保険種別をプルダウン表示用に用意
             model.addAttribute("insurances", estimateService.getInsurances());
@@ -99,10 +105,10 @@ public class EstimateController {
             model.addAttribute("marriedTypes", MarriedType.values());
             model.addAttribute("jobTypes", JobType.values());
             model.addAttribute("treatedTypes", TreatedType.values());
+            model.addAttribute("discoverySourceTypes", DiscoverySourceType.values());
 
             return "input";  // 入力画面表示を指示
         }
-
 
         // if (userOrderForm.insuranceType() == null || userOrderForm.insuranceType().isEmpty()) {
         //     // model.addAttribute("errorMessage", "保険種別を選択してください。");
@@ -176,6 +182,7 @@ public class EstimateController {
         model.addAttribute("marriedTypes", MarriedType.values());
         model.addAttribute("jobTypes", JobType.values());
         model.addAttribute("treatedTypes", TreatedType.values());
+        model.addAttribute("discoverySourceTypes", DiscoverySourceType.values());
 
         return "input";   // 入力画面表示を指示
     }
@@ -214,7 +221,8 @@ public class EstimateController {
         InsuranceOrder insuranceOrder = new InsuranceOrder(
             null,  // 受付番号はデータベース登録時に自動採番されるためnullを設定
             Integer.parseInt(userOrderForm.insuranceType()),
-            userOrderForm.kanjiName(),
+            // userOrderForm.kanjiName(),
+            userOrderForm.kanjiLastName() + userOrderForm.kanjiFirstName(),
             userOrderForm.kanaName(),
             userOrderForm.dateOfBirth(),
             userOrderForm.address(),
@@ -223,6 +231,7 @@ public class EstimateController {
             Integer.parseInt(userOrderForm.marriedType()),
             Integer.parseInt(userOrderForm.jobType()),
             Integer.parseInt(userOrderForm.income()),
+            Integer.parseInt(userOrderForm.discoverySourceType()),
             Integer.parseInt(userOrderForm.treatedType()),
             userOrderForm.medicalHistory()
         );
@@ -271,8 +280,10 @@ public class EstimateController {
             "",
             "",
             "",
+            "",
             String.valueOf(MarriedType.MARRIED.getCode()),
             String.valueOf(JobType.MANAGER.getCode()),
+            "",
             "",
             String.valueOf(TreatedType.TREATED.getCode()),
             ""

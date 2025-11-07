@@ -2,6 +2,7 @@ package com.tiscon11.form;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.tiscon11.code.DiscoverySourceType;
 import com.tiscon11.code.JobType;
 import com.tiscon11.code.MarriedType;
 import com.tiscon11.code.TreatedType;
@@ -22,6 +23,8 @@ import jakarta.validation.constraints.Size;
  *
  * @param insuranceType  保険種別
  * @param kanjiName      氏名
+ * @param kanjiLastName  氏名（姓）
+ * @param kanjiFirstName 氏名（名） 
  * @param kanaName       シメイ（フリガナ）
  * @param dateOfBirth    生年月日
  * @param address        住所
@@ -38,8 +41,14 @@ public record UserOrderForm(
     @NotBlank @Numeric
     String insuranceType,    // 保険種別
 
+    // @NotBlank @Size(max = 60)
+    // String kanjiName,    // 氏名
+
     @NotBlank @Size(max = 60)
-    String kanjiName,    // 氏名
+    String kanjiLastName,
+
+    @NotBlank @Size(max = 60)
+    String kanjiFirstName,
 
     @NotBlank @Pattern(regexp = "^[ァ-ヶー　]*$") @Size(max = 90)
     String kanaName,    // シメイ（フリガナ）
@@ -47,7 +56,7 @@ public record UserOrderForm(
     @NotBlank @YYYYMMDD()
     String dateOfBirth,    // 生年月日
 
-    @NotBlank
+    //@NotBlank
     String postalCode,     // 郵便番号
 
     @NotBlank @Size(max = 255)
@@ -67,6 +76,9 @@ public record UserOrderForm(
 
     @NotBlank @Numeric @Size(max = 9)
     String income,     // 昨年の所得(万円)
+
+    @NotBlank @CodeValue(value = DiscoverySourceType.class)
+    String discoverySourceType, // 保険認知経路
 
     @NotBlank @CodeValue(value = TreatedType.class)
     String treatedType,  // 病歴有無
@@ -118,6 +130,16 @@ public record UserOrderForm(
     public JobType getJobTypeEnum() {
         return JobType.getEnumFromCode(this.jobType);
     }
+
+    /**
+     * 認知経路の列挙型(enum)を取得する。
+     *
+     * @return 認知経路の列挙型
+     */
+    public DiscoverySourceType getDiscoverySourceTypeEnum() {
+        return DiscoverySourceType.getEnumFromCode(this.discoverySourceType);
+    }
+
 
     /**
      * 病歴有無の列挙型(enum)を取得する。

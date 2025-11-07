@@ -83,10 +83,10 @@ public class EstimateDao {
     public void insertInsuranceOrder(InsuranceOrder insuranceOrder) {
         String sql = """
             INSERT INTO INSURANCE_ORDER(
-                INSURANCE_TYPE, KANJI_NAME, KANA_NAME, DATE_OF_BIRTH, ADDRESS, TEL, EMAIL_ADDRESS, MARRIED, JOB, INCOME, TREATED, MEDICAL_HISTORY
+                INSURANCE_TYPE, KANJI_NAME, KANA_NAME, DATE_OF_BIRTH, ADDRESS, TEL, EMAIL_ADDRESS, MARRIED, JOB, INCOME, DISCOVERY_SOURCE, TREATED, MEDICAL_HISTORY
             )
             VALUES(
-                :insuranceType, :kanjiName, :kanaName, :dateOfBirth, :address, :tel, :email, :marriedType, :jobType, :income, :treatedType, :medicalHistory
+                :insuranceType, :kanjiName, :kanaName, :dateOfBirth, :address, :tel, :email, :marriedType, :jobType, :income, :discoverySourceType, :treatedType, :medicalHistory
             )
             """;
         KeyHolder keyHolder = new GeneratedKeyHolder();

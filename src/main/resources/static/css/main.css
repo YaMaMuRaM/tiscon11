@@ -175,3 +175,27 @@ table {
   margin-top: -5px;         /* 入力欄との間に少し余白 */
   display: block;          /* 改行して独立表示 */
 }
+
+.announce {
+    color: #313131;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 21px;
+}
+
+.announce .highlight {
+    color: #2EA9BC;
+}
+
+.contact {
+    color: #313131;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.contact-info {
+    display: inline-block;
+    text-align: right;
+}
