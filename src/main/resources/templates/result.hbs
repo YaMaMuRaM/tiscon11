@@ -11,11 +11,13 @@
       <div class="page-title">あなたの保険料（年額）</div>
       <div class="col-sm-12">
         <div class="text-center">
-          <div class="primary-text"><span>{{estimateResult.annualFee}}</span>円</div>
+          <div class="primary-text"><span>{{numberFormat estimateResult.annualFee}}</span>円</div>
+          <div class="page-title">割戻金額（実績例）</div>
+          <div class="primary-text"><span>{{numberFormat estimateResult.refundFeeInt}}</span>円</div>
           <div class="announce">
-            依頼完了後、<span class="highlight">数日以内に</span>電話番号へお電話させていただきます。
+            依頼完了後、<span class="highlight">数日以内に</span>ご登録いただいたメールアドレス宛に、資料をお送りいたします。
           </div>
-          <span>※ 混雑状況によっては、お電話させていただくまで、お時間をいただく場合がございます。</span>
+          {{!-- <span>※ 混雑状況によっては、お電話させていただくまで、お時間をいただく場合がございます。</span> --}}
           <button type="submit" name="proceed" class="btn btn-primary">詳細見積もり依頼へ</button>
           <div class="contact">お問い合わせ</div>
           <div class="contact-info">

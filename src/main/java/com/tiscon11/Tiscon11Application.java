@@ -11,6 +11,7 @@ import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import com.github.jknack.handlebars.springmvc.HandlebarsViewResolver;
 import com.tiscon11.viewhelper.SpringMVCHelper;
+import com.tiscon11.viewhelper.SpringMVCHelper.NumberFormatHelper;
 
 /**
  * Spring Bootのエントリーポイント。
@@ -35,6 +36,7 @@ public class Tiscon11Application {
             // "eq", ConditionalHelpers.eq,
             "eq", new SpringMVCHelper.EQHelper(),
             "not", ConditionalHelpers.not,
+            "numberFormat", new NumberFormatHelper(),
             "fieldErrors", new SpringMVCHelper.FieldErrorsHelper(),
             "hasFieldErrors", new SpringMVCHelper.HasFieldErrorsHelper()
         );

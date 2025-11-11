@@ -62,11 +62,19 @@ public class EstimateService {
         // 年齢による調整率を取得する。
         double adjustmentRateByAge = estimateDAO.findAdjustmentRateByAge(age);
 
+        // 年間保険料（割戻し前）
+        double annualFeeWithoutRefund = (monthlyFee * 12 * adjustmentRateByAge);
+
+        // 割戻し金額を計算する
+        double refundRate = findRefundRate(insuranceType);
+        double refundFee = annualFeeWithoutRefund * refundRate;
+        int refundFeeInt = (int) refundFee;  // 小数点以下切り捨て
+
         // 保険料（年額）を計算する。
         int annualFee = (int) (monthlyFee * 12 * adjustmentRateByAge);
 
         // 見積もり結果を返す。
-        EstimateResult estimateResult = new EstimateResult(annualFee, adjustmentRateByAge, age);
+        EstimateResult estimateResult = new EstimateResult(annualFee, adjustmentRateByAge, age, refundFeeInt);
         return estimateResult;
 
     }
@@ -102,5 +110,33 @@ public class EstimateService {
     @Transactional
     public void registerOrder(InsuranceOrder insuranceOrder) {
         estimateDAO.insertInsuranceOrder(insuranceOrder);
+    }
+
+    /** 医療保険の割戻し率 */
+    private static final double IRYOU_REFUND_RATE = 0.2;
+    /** 死亡保険の割戻し率 */
+    private  static final double SHIBOU_REFUND_RATE = 0.15;
+    /** がん保険の割戻し率 */
+    private static final double GAN_REFUND_RATE = 0.35;
+
+    /**
+     * 割戻し率を取得する。
+     * 割戻し率は年度毎に異なるが、ここでは簡略化のため去年実績値の固定値とする。
+     *
+     * 医療保険：20%
+     * がん保険：15%
+     * 死亡保険：35%
+     *
+     * @param insuranceType 保険種別
+     * @return 割戻し率
+     */
+    private double findRefundRate(Integer insuranceType) {
+        double refundRate = switch (insuranceType) {
+            case 1 -> IRYOU_REFUND_RATE;   // 医療保険
+            case 2 -> SHIBOU_REFUND_RATE;  // 死亡保険
+            case 3 -> GAN_REFUND_RATE;  // がん保険
+            default -> throw new IllegalArgumentException("Invalid insurance type: " + insuranceType);
+        };
+        return refundRate;
     }
 }

@@ -2,7 +2,9 @@ package com.tiscon11.viewhelper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.text.NumberFormat;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -145,6 +147,14 @@ public class SpringMVCHelper {
             } else {
                 return false;
             }
+        }
+    }
+
+    public static class NumberFormatHelper implements Helper<Number> {
+        @Override
+        public Object apply(Number value, Options options) {
+            if (value == null) return "";
+            return String.format("%,d", value.intValue());
         }
     }
 }
