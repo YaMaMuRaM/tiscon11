@@ -2,12 +2,14 @@ package com.tiscon11.viewhelper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import com.github.jknack.handlebars.Helper;
 import com.github.jknack.handlebars.Options;
+import com.github.jknack.handlebars.TagType;
 
 /**
  * Spring MVCでHandlebars.javaを使用するためのヘルパークラス。
@@ -119,5 +121,30 @@ public class SpringMVCHelper {
             return errorMessages.toString();
         }
 
+    }
+
+    public static class EQHelper implements Helper<Object> {
+        @Override
+        public Object apply(Object a, Options options) throws IOException {
+            Object b = options.param(0, (Object)null);
+            boolean result = this.eq(a, b);
+            if (options.tagType == TagType.SECTION) {
+                return result ? options.fn() : options.inverse();
+            } else {
+                return result ? options.hash("yes", true) : options.hash("no", false);
+            }
+        }
+        protected boolean eq(Object a, Object b) {
+            boolean value = Objects.equals(a, b);
+            if (value) {
+                return true;
+            } else if (a instanceof Number && b instanceof Number) {
+                return ((Number)a).doubleValue() == ((Number)b).doubleValue();
+            } else if(a instanceof String || b instanceof String) {
+                return a.toString().equals(b.toString());
+            } else {
+                return false;
+            }
+        }
     }
 }

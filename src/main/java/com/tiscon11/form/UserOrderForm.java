@@ -127,6 +127,8 @@ public record UserOrderForm(
      *
      * @return ご職業の列挙型
      */
+    // input.hbsの{{#eq this.code userOrderForm.jobTypeEnum.code}}で呼び出している。
+    // ココであるthis.codeとuserOrderForm.jobTypeEnum.codeはどちらもEnumのcodeを指しているため型が一致しており、ヘルパーなしで復元可能。
     public JobType getJobTypeEnum() {
         return JobType.getEnumFromCode(this.jobType);
     }

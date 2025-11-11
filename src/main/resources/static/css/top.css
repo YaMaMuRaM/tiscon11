@@ -1,10 +1,11 @@
 .jumbotron {
     height: 40vh;
-    background-image: url("/img/top.webp");
+    background-image: url("/img/top2.webp");
     background-position:left 0 top 80%;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     position: relative;
+    background-color: #2EA9BC; /* ← jumbotronの背景色 */
 }
 
 .jumbotron::before {

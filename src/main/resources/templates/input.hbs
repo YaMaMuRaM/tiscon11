@@ -43,7 +43,7 @@
               <select name="insuranceType">
                 <option value="">選択してください</option>
                 {{#each insurances}}
-                  <option value="{{this.insuranceType}}">{{this.insuranceName}}</option>
+                  <option value="{{this.insuranceType}}" {{#eq this.insuranceType userOrderForm.insuranceType}}selected{{/eq}}>{{this.insuranceName}}</option>
                 {{/each}}
               </select>
             </label>
@@ -171,10 +171,11 @@
               {{#fieldErrors "jobTypes"}}<li>{{this}}</li>{{/fieldErrors}}
             </ul>
           {{/hasFieldErrors}}
-          <label class="caption">
+          <label class="caption" style="display:block; width:auto;">
             昨年の所得（万円）<sup style="color:red; font-size: 0.8em;">＊</sup><br>
-            <small class="hint">例：1000（半角）</small>
-            <input type="text" name="income" value="{{userOrderForm.income}}"/>
+            <small class="hint">例：1000（半角）</small><br>
+            <input type="text" name="income" value="{{userOrderForm.income}}" style="width: 100px; display:inline-block; vertical-align: middle;"/>
+            <span style="display:inline-block; vertical-align: middle;">万円</span>
           </label>
           {{#hasFieldErrors "income"}}
             <ul class="error-message">
@@ -186,7 +187,7 @@
             <select name="discoverySourceType">
               <option value="">選択してください</option>
                 {{#each discoverySourceTypes}}
-                  <option value="{{this.code}}">{{this.label}}</option>
+                  <option value="{{this.code}}" {{#eq this.code userOrderForm.discoverySourceTypeEnum.code}}selected{{/eq}}>{{this.label}}</option>
                 {{/each}}
             </select>
           </label>

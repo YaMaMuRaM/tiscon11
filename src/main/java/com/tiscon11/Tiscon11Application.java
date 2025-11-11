@@ -32,7 +32,8 @@ public class Tiscon11Application {
         viewResolver.setSuffix(".hbs");
         viewResolver.setCache(false);
         Map<String, Helper<?>> helpers = Map.of(
-            "eq", ConditionalHelpers.eq,
+            // "eq", ConditionalHelpers.eq,
+            "eq", new SpringMVCHelper.EQHelper(),
             "not", ConditionalHelpers.not,
             "fieldErrors", new SpringMVCHelper.FieldErrorsHelper(),
             "hasFieldErrors", new SpringMVCHelper.HasFieldErrorsHelper()
